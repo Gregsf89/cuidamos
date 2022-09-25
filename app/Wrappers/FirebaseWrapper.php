@@ -3,7 +3,10 @@
 namespace App\Wrappers;
 
 use Exception;
+use Kreait\Firebase\Exception\Auth\EmailExists;
+use Kreait\Firebase\Exception\Auth\EmailNotFound;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
+use Kreait\Firebase\Auth\UserRecord;
 
 class FirebaseWrapper
 {
@@ -150,8 +153,44 @@ class FirebaseWrapper
         $user = $this->_auth->signInWithEmailAndPassword($email, $password);
         return [
             'id_token' => $user->idToken(),
+            'firebase_user_id' => $user->firebaseUserId(),
             'access_token' => $user->accessToken(),
             'refresh_token' => $user->refreshToken(),
         ];
+    }
+
+    /**
+     * Função responsável criar um novo usuário no firebase
+     * 
+     * @param array $userProperties The user properties
+     * @return array The user data
+     */
+    public function createUser(array $userProperties): array
+    {
+        try {
+            $user = $this->_auth->createUser($userProperties);
+            $emailLink = $this->getEmailVerificationLink($userProperties['email']);
+            return [
+                'uid' => $user->uid,
+                'email_link_confirmation' => $emailLink,
+            ];
+        } catch (\Kreait\Firebase\Exception\Auth\EmailExists) {
+            throw new EmailExists('email_already_exists', 100090);
+        }
+    }
+
+    /**
+     * Função responsável por enviar uma mensagem para o usuário
+     * 
+     * @param string $email The user email
+     * @return string The email verification link
+     */
+    public function getEmailVerificationLink(string $email): string
+    {
+        try {
+            return $this->_auth->getEmailVerificationLink($email);
+        } catch (\Kreait\Firebase\Exception\Auth\EmailNotFound) {
+            throw new EmailNotFound('invalid_email', 100089);
+        }
     }
 }

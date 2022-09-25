@@ -34,7 +34,7 @@ class Authenticate extends Middleware
             }
             $tokenInfo = JwtHelper::decodeToken($token);
 
-            $account = AccountRepository::getByUuid($tokenInfo->sub);
+            $account = AccountRepository::getByUid($tokenInfo->sub);
             auth()->setUser($account);
 
             $request->setUserResolver(function () use ($account) {

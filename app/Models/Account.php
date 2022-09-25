@@ -23,7 +23,7 @@ class Account extends Authenticatable
      */
     protected $fillable = [
         'email',
-        'uuid',
+        'uid',
         'password'
     ];
 

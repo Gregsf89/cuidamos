@@ -17,7 +17,7 @@ class AuthController extends Controller
             $credentials,
             [
                 'email' => 'required|email:rfc,dns',
-                'password' => 'required|string|min:8'
+                'password' => 'required|string|min:6'
             ],
             $this->customMessages
         );
@@ -29,11 +29,6 @@ class AuthController extends Controller
         return (new AuthService())->login($credentials);
     }
 
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
-
     public function logout()
     {
         auth()->logout();
@@ -41,17 +36,24 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-    public function refresh()
+    protected function create(Request $request)
     {
-        return $this->respondWithToken(auth()->refresh());
-    }
+        $credentials = $request->only('email', 'password', 'password_confirmation');
 
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        $validator = Validator::make(
+            $credentials,
+            [
+                'email' => 'required|email:rfc,dns',
+                'password' => 'required|string|regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$^', //Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
+                'password_confirmation' => 'required|same:password'
+            ],
+            $this->customMessages
+        );
+
+        if ($validator->fails()) {
+            throw new Exception($validator->errors(), 100002);
+        }
+
+        return (new AuthService())->create($credentials);
     }
 }

@@ -21,13 +21,15 @@ class JsonMiddleware
             'data' => null,
             'error' => null
         ];
+
         $response = $next($request);
-        if (preg_match("~^2\d+$~", $response->original['code'])) {
-            $return['data'] = $response->original;
+        // dd($response->original);
+        if (!empty($response->original['code']) && isset($response->original['message'])) {
+            $return['error'] = $response->original;
         } else if (!empty($response->original['error']['code']) && isset($response->original['error']['message'])) {
             $return['error'] = $response->original['error'];
         } else {
-            $return['error'] = $response->original;
+            $return['data'] = $response->original;
         }
 
         return response()->json($return, $response->getStatusCode());

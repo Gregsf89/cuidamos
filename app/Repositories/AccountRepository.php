@@ -14,12 +14,12 @@ class AccountRepository extends Repository
     /**
      * Gets an account by its uid
      *
-     * @param string $uuid
+     * @param string $uid
      * @return Account The user model requested
      */
-    public static function getByUuid(string $uuid): Account
+    public static function getByUid(string $uid): ?Account
     {
-        return Account::where(['uuid' => $uuid])->firstOrFail();
+        return Account::where('uid', $uid)->first();
     }
 
     /**
@@ -28,9 +28,9 @@ class AccountRepository extends Repository
      * @param string $email
      * @return Account The Account's account model
      */
-    public function getByEmail(string $email): Account
+    public function getByEmail(string $email): ?Account
     {
-        return Account::where(['email' => $email])->firstOrFail();
+        return Account::where('email', $email)->first();
     }
 
     /**
@@ -38,13 +38,9 @@ class AccountRepository extends Repository
      * @param array $data
      * @return Account
      */
-    public function create(array $data): Account
+    public function create(array $data): ?Account
     {
-        if ($this->getByUuid($data['uid'])) {
-            throw new Exception('uid_already_exists', 504);
-        }
-
-        return (Account::create($data))->fresh();
+        return (Account::updateOrCreate($data))->fresh();
     }
 
     /**
@@ -54,7 +50,7 @@ class AccountRepository extends Repository
      */
     public function delete(int $id): void
     {
-        Account::where(['id' => $id])->forceDelete();
+        Account::where('id', $id)->forceDelete();
     }
 
     /**
@@ -65,7 +61,7 @@ class AccountRepository extends Repository
      */
     public function show(int $id): ?Account
     {
-        return Account::where('id', $id)->firstOrFail();
+        return Account::where('id', $id)->first();
     }
 
     /**

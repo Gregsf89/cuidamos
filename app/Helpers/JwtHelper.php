@@ -6,8 +6,8 @@ use Firebase\JWT\JWT;
 use stdClass;
 
 /**
- * Class JwtService
- * @package App\Services
+ * Class JwtHelper
+ * @package App\Helpers
  */
 class JwtHelper
 {
@@ -21,6 +21,10 @@ class JwtHelper
      */
     public static function buildToken(array $tokenInfo): string
     {
+        if (empty(self::$config)) {
+            self::setConfig();
+        }
+
         $startTime = time();
         $token = array(
             'iss' => self::$config['app_url'],
@@ -46,5 +50,10 @@ class JwtHelper
     public static function decodeToken(string $token): stdClass
     {
         return JWT::decode($token, self::$config['secret'], [self::$config['algo']]);
+    }
+
+    public static function setConfig(): void
+    {
+        self::$config = config('jwt', []);
     }
 }

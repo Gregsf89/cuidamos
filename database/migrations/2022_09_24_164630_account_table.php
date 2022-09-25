@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->string('uuid')->unique();
+            $table->string('uid')->unique();
             $table->string('password');
             $table->timestamps();
             $table->softDeletes();

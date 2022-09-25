@@ -7,6 +7,7 @@ use App\Wrappers\FirebaseWrapper;
 use App\Repositories\AccountRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class AuthController
@@ -23,29 +24,61 @@ class AuthService extends Service
      */
     public function login(array $credentials): array
     {
-        if (!auth()->attempt($credentials, true)) {
-            abort(401, "invalid_username_and_or_password");
-        }
-        $authInfo = (new FirebaseWrapper())->verifyUserToken($userToken);
+        $firebaseAuth = (new FirebaseWrapper());
+        $accountRepository = (new AccountRepository());
+
+        $loginInfo = $firebaseAuth->signInWithEmailAndPassword($credentials['email'], $credentials['password']);
+
+        dd($loginInfo);
 
         $account = (new AccountRepository())->getByUsername($credentials['username']);
         auth()->setUser($account);
         $token = JwtHelper::buildToken([
             "sub" => $account->uuid,
         ]);
-        (new AccountService())->update($account->id, ['last_access' => now()]);
 
 
         auth()->setUser($account); //Define o account como o usuário autenticado
         //Gera o token do usuário
         $token = JwtHelper::buildToken(['sub' => $account->uuid]);
 
-        //Registra um novo dispositivo / Reativa um dispositivo desativado da conta / Atualiza o dispositivo existente
-        (new AccountDeviceService())->registerDevice($account->id, $deviceInfo);
-
         return [
             'token' => $this->respondWithToken($token)['token']
         ];
+    }
+
+    /**
+     * Create a new Firebase user and local account
+     * 
+     * @param array $credentials The user credentials
+     * @return array
+     */
+    public function create(array $credentials) //: array
+    {
+        $firebaseAuth = (new FirebaseWrapper());
+        $accountRepository = (new AccountRepository());
+
+        $userProperties  = [
+            'email' => $credentials['email'],
+            'password' => $credentials['password'],
+            'emailVerified' => false
+        ];
+
+        $firebaseUser = $firebaseAuth->createUser($userProperties);
+        return $firebaseUser;
+
+        // $account = $accountRepository->create([
+        //     'uid' => $firebaseUser->uid,
+        //     'email' => $credentials['email'],
+        //     'password' => Hash::make($credentials['password'])
+        // ]);
+
+        // auth()->setUser($account); //Define o account como o usuário autenticado        
+        // $token = JwtHelper::buildToken(['sub' => $account->uid]); //Gera o token do usuário
+
+        // return [
+        //     'token' => $this->respondWithToken($token)['token']
+        // ];
     }
 
     /**
@@ -54,24 +87,6 @@ class AuthService extends Service
     public function show(): ?Authenticatable
     {
         return auth()->user();
-    }
-
-    /**
-     * Refresh a token.
-     * @return array
-     */
-    public function refresh(): array
-    {
-        $service = new AccountService();
-        $service->update(auth()->user()->id, ['last_access' => now()]);
-        $token = JwtHelper::buildToken([
-            "sub" => auth()->user()->uuid,
-        ]);
-
-        return [
-            'auth_info' => auth()->user(),
-            'token' => $this->respondWithToken($token)['token']
-        ];
     }
 
     /**
