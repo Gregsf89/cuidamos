@@ -65,20 +65,19 @@ class AuthService extends Service
         ];
 
         $firebaseUser = $firebaseAuth->createUser($userProperties);
-        return $firebaseUser;
 
-        // $account = $accountRepository->create([
-        //     'uid' => $firebaseUser->uid,
-        //     'email' => $credentials['email'],
-        //     'password' => Hash::make($credentials['password'])
-        // ]);
+        $account = $accountRepository->create([
+            'uid' => $firebaseUser['uid'],
+            'email' => $credentials['email'],
+            'password' => Hash::make($credentials['password'])
+        ]);
 
-        // auth()->setUser($account); //Define o account como o usuário autenticado        
-        // $token = JwtHelper::buildToken(['sub' => $account->uid]); //Gera o token do usuário
+        auth()->setUser($account); //Define o account como o usuário autenticado        
+        $token = JwtHelper::buildToken(['sub' => $account->uid]); //Gera o token do usuário
 
-        // return [
-        //     'token' => $this->respondWithToken($token)['token']
-        // ];
+        return [
+            'token' => $this->respondWithToken($token)['token']
+        ];
     }
 
     /**
