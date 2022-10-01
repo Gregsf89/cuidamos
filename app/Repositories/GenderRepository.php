@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Collection;
 /**
  * Class GenderRepository
  * @package App\Repositories
- * @author Fernando Villas Boas
  */
 class GenderRepository extends Repository
 {
@@ -20,7 +19,7 @@ class GenderRepository extends Repository
      */
     public static function getByName(string $name): ?int
     {
-        return Gender::select(['id'])->where(['name' => $name])->pluck('id')->first();
+        return Gender::select('id')->where(['name' => $name])->pluck('id')->first();
     }
 
     /**
@@ -30,14 +29,14 @@ class GenderRepository extends Repository
      */
     public static function getById(int $id): ?string
     {
-        return Gender::select('id', 'name')->where('id', $id)->pluck('name')->first();
+        return Gender::select('id', 'name')->where(['id' => $id])->pluck('name')->first();
     }
 
     /**
      * List all genders
      * @return Collection
      */
-    public static function list(): Collection
+    public static function listGender(): Collection
     {
         return Gender::all();
     }

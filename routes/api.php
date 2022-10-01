@@ -15,3 +15,4 @@ include('user.php');
 include('auth.php');
 include('device.php');
 include('wardship.php');
+include('resource.php');

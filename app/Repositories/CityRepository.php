@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\City;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CityRepository
@@ -15,20 +16,21 @@ class CityRepository extends Repository
      * @param array $filters data to use as filter on the search, current 'state_code' and 'name'
      * @return array|null
      */
-    public function search(array $filters): ?array
+    public function searchCity(array $filters): ?Collection
     {
-        $where = array();
-        $state_code = $filters['state_code'];
+        $where = [];
 
-        if (!empty($filters['name'])) {
-            $where[] = ['name', 'like', "%{$filters['name']}%"];
+        if (!empty($filters['city_name'])) {
+            $where[] = ['name', 'like', "%{$filters['city_name']}%"];
         }
 
-        return City::select('name', 'id')
-            ->where('state_id', '=', $state_code)
+        if (!empty($filters['federative_unit_id'])) {
+            $where[] = ['federative_unit_id', 'like', "%{$filters['federative_unit_id']}%"];
+        }
+
+        return City::select('id', 'name', 'federative_unit_id')
             ->where($where)
             ->orderBy('name')
-            ->get()
-            ->all();
+            ->get();
     }
 }
