@@ -2,8 +2,7 @@
 
 use App\Http\Controllers\DeviceController;
 
-Route::post('/device/create', [DeviceController::class, 'create']);
-Route::post('/device/show', [DeviceController::class, 'show']);
+Route::post('/device/link', [DeviceController::class, 'link']);
+Route::post('/device/getByImei', [DeviceController::class, 'getByImei']);
 Route::get('/device/list', [DeviceController::class, 'list']);
-Route::post('/device/update', [DeviceController::class, 'update']);
-Route::post('/device/delete', [DeviceController::class, 'delete']);
+Route::post('/device/unlink', [DeviceController::class, 'unlink']);

@@ -172,7 +172,7 @@ class FirebaseWrapper
             $emailLink = $this->getEmailVerificationLink($userProperties['email']);
             return [
                 'uid' => $user->uid,
-                'email_link_confirmation' => $emailLink,
+                'email_link_confirmation' => $emailLink
             ];
         } catch (\Kreait\Firebase\Exception\Auth\EmailExists) {
             throw new EmailExists('email_already_exists', 100090);

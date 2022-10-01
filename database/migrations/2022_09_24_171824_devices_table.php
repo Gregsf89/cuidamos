@@ -15,15 +15,13 @@ return new class extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('wardship_id', false, true);
+            $table->foreignId('wardship_id')->nullable()->constrained('wardships')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('imei')->unique();
             $table->string('uuid')->unique();
             $table->string('carrier_name');
             $table->string('carrier_number');
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('wardship_id')->references('id')->on('wardships')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestampsTz();
+            $table->softDeletesTz();
         });
     }
 

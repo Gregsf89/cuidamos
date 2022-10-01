@@ -6,13 +6,11 @@ use App\Helpers\JwtHelper;
 use App\Wrappers\FirebaseWrapper;
 use App\Repositories\AccountRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Exception;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class AuthController
+ * Class AuthService
  * @package App\Services
- * @author Fernando Villas Boas
  */
 class AuthService extends Service
 {
@@ -24,23 +22,20 @@ class AuthService extends Service
      */
     public function login(array $credentials): array
     {
+        if (!auth()->attempt($credentials, true)) {
+            abort(401, 'invalid_username_and_or_password');
+        }
+
         $firebaseAuth = (new FirebaseWrapper());
         $accountRepository = (new AccountRepository());
 
         $loginInfo = $firebaseAuth->signInWithEmailAndPassword($credentials['email'], $credentials['password']);
 
-        dd($loginInfo);
-
-        $account = (new AccountRepository())->getByUsername($credentials['username']);
+        $account = $accountRepository->getByEmail($credentials['email']);
         auth()->setUser($account);
         $token = JwtHelper::buildToken([
-            "sub" => $account->uuid,
+            'sub' => $account->uid,
         ]);
-
-
-        auth()->setUser($account); //Define o account como o usuário autenticado
-        //Gera o token do usuário
-        $token = JwtHelper::buildToken(['sub' => $account->uuid]);
 
         return [
             'token' => $this->respondWithToken($token)['token']
@@ -76,7 +71,8 @@ class AuthService extends Service
         $token = JwtHelper::buildToken(['sub' => $account->uid]); //Gera o token do usuário
 
         return [
-            'token' => $this->respondWithToken($token)['token']
+            'token' => $this->respondWithToken($token)['token'],
+            'email_link_confirmation' => $firebaseUser['email_link_confirmation']
         ];
     }
 

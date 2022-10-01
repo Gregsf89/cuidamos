@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only(['email', 'password']);
 
         $validator = Validator::make(
             $credentials,
@@ -29,16 +29,9 @@ class AuthController extends Controller
         return (new AuthService())->login($credentials);
     }
 
-    public function logout()
-    {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
     protected function create(Request $request)
     {
-        $credentials = $request->only('email', 'password', 'password_confirmation');
+        $credentials = $request->only(['email', 'password', 'password_confirmation']);
 
         $validator = Validator::make(
             $credentials,
@@ -55,5 +48,12 @@ class AuthController extends Controller
         }
 
         return (new AuthService())->create($credentials);
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

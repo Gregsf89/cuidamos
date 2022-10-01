@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id', false, true);
-            $table->tinyInteger('gender_id', false, true);
-            $table->bigInteger('city_id', false, true);
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->tinyInteger('gender_id', false, true)->nullable();
             $table->string('document')->unique();
             $table->string('uuid')->unique();
             $table->string('first_name');
@@ -25,13 +25,11 @@ return new class extends Migration
             $table->string('address');
             $table->string('zip_code');
             $table->date('date_of_birth');
-            $table->timestamps();
-            $table->softDeletes();
+            $table->timestampsTz();
+            $table->softDeletesTz();
             $table->string('address_complement')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('gender_id')->references('id')->on('genders')->nullOnDelete()->nullOnUpdate();
         });
     }
 

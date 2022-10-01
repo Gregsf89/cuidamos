@@ -15,17 +15,16 @@ return new class extends Migration
     {
         Schema::create('device_logs', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('device_id', false, true);
+            $table->foreignId('device_id')->constrained('devices')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('wardship_id')->nullable()->constrained('wardships')->cascadeOnDelete()->cascadeOnUpdate();
             $table->float('latitude', 10, 7, false);
             $table->float('longitude', 10, 7, false);
             $table->float('altitude', 10, 7, false);
             $table->date('date');
-            $table->time('time');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timeTz('time');
+            $table->timestampTz('created_at')->useCurrent();
             $table->float('speed', 10, 7, false)->nullable();
             $table->float('accuracy', 10, 7, false)->nullable();
-
-            $table->foreign('device_id')->references('id')->on('devices')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
