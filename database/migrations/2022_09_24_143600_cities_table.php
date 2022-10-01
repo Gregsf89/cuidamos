@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('external_id', false, true);
             $table->string('name');
-            $table->string('state_id', 2);
+            $table->string('federative_unit_id', 2);
 
-            $table->foreign('state_id')->references('id')->on('states')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('federative_unit_id')->references('id')->on('federative_units')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

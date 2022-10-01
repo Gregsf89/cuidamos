@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $seeders = [
-            StateSeeder::class,
+            FederativeUnitSeeder::class,
             CitySeeder::class,
             GenderSeeder::class,
         ];

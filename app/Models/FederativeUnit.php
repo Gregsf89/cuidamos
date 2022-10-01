@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class State extends Model
+class FederativeUnit extends Model
 {
     protected $fillable = [
         'name'

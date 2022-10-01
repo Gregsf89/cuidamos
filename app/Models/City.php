@@ -9,7 +9,7 @@ class City extends Model
     protected $fillable = [
         'name',
         'external_id',
-        'state_id'
+        'federative_unit_id'
     ];
 
     /**
@@ -24,6 +24,6 @@ class City extends Model
      */
     public function state(): HasOne
     {
-        return $this->hasOne(State::class, 'id', 'state_id');
+        return $this->hasOne(FederativeUnit::class, 'id', 'federative_unit_id');
     }
 }
