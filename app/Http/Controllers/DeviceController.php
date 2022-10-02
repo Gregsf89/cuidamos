@@ -38,12 +38,12 @@ class DeviceController extends Controller
 
     public function getByImei(Request $request): array
     {
-        $data = $request->only(['device_id', 'wardship_id']);
+        $data = $request->only(['device_imei']);
 
         $validator = Validator::make(
             $data,
             [
-                'imei' => 'required|string|exists:devices,imei,deleted_at,NULL,wardship_id,NULL',
+                'device_imei' => 'required|string|exists:devices,imei,deleted_at,NULL,wardship_id,NULL',
             ],
             $this->customMessages
         );

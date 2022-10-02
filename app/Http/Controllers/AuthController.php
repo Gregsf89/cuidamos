@@ -37,7 +37,7 @@ class AuthController extends Controller
             $credentials,
             [
                 'email' => 'required|email:rfc,dns',
-                'password' => 'required|string|regex:^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$^', //Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
+                'password' => 'required|string|regex:^\S*(?=\S{6,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$^', //Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
                 'password_confirmation' => 'required|same:password'
             ],
             $this->customMessages

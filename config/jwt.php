@@ -11,6 +11,14 @@
 
 return [
 
+    'config' => [
+        'secret' => env('JWT_SECRET'),
+        'ttl' => env('JWT_TTL', 60),
+        'refresh_ttl' => env('JWT_REFRESH_TTL', 60),
+        'algo' => env('JWT_ALGO', 'HS256'),
+        'app_url' => env('APP_URL', ''),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | JWT APP URL
@@ -294,8 +302,9 @@ return [
         |
         */
 
-        'auth' => //Tymon\JWTAuth\Providers\Auth\Illuminate::class,
-        \App\Http\Middleware\Authenticate::class,
+        'auth' =>
+        Tymon\JWTAuth\Providers\Auth\Illuminate::class,
+        // \App\Http\Middleware\Authenticate::class,
 
         /*
         |--------------------------------------------------------------------------
@@ -306,8 +315,6 @@ return [
         |
         */
 
-        'storage' => Tymon\JWTAuth\Providers\Storage\Illuminate::class,
-
-    ],
-
+        'storage' => Tymon\JWTAuth\Providers\Storage\Illuminate::class
+    ]
 ];

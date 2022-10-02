@@ -32,10 +32,12 @@ class AuthService extends Service
         $loginInfo = $firebaseAuth->signInWithEmailAndPassword($credentials['email'], $credentials['password']);
 
         $account = $accountRepository->getByEmail($credentials['email']);
-        auth()->setUser($account);
+
         $token = JwtHelper::buildToken([
             'sub' => $account->uid,
         ]);
+
+        auth()->setUser($account);
 
         return [
             'token' => $this->respondWithToken($token)['token']

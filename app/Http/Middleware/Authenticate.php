@@ -2,16 +2,16 @@
 
 namespace App\Http\Middleware;
 
+
+use App\Helpers\JwtHelper;
+use App\Repositories\AccountRepository;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Closure;
 use Error;
 use Exception;
-use App\Helpers\JwtHelper;
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Illuminate\Http\Request;
-use App\Repositories\AccountRepository;
-use App\Repositories\UserRepository;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Authenticate extends Middleware
 {

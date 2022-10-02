@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use stdClass;
 
 /**
@@ -49,11 +50,15 @@ class JwtHelper
      */
     public static function decodeToken(string $token): stdClass
     {
-        return JWT::decode($token, self::$config['secret'], [self::$config['algo']]);
+        if (empty(self::$config)) {
+            self::setConfig();
+        }
+
+        return JWT::decode($token, new Key(self::$config['secret'], self::$config['algo']));
     }
 
     public static function setConfig(): void
     {
-        self::$config = config('jwt', []);
+        self::$config = config('jwt.config', []);
     }
 }

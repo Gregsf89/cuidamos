@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->timestampsTz();
             $table->softDeletesTz();
+            $table->string('remember_token')->nullable();
         });
     }
 
