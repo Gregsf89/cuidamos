@@ -1,0 +1,44 @@
+runtime: php
+env: flex
+
+runtime_config:
+  document_root: public
+
+skip_files:
+  - .env
+
+env_variables:
+  APP_NAME: Cuidam.os
+  APP_ENV: local
+  APP_KEY: base64:f5q5FxsO880OyC4+Nw5b3E5nX9cJeOCmYFGLqOIxF+E=
+  APP_DEBUG: true
+  APP_URL: http://cuidam.os
+  JWT_SECRET: siQGwAUwOlRWpLA2mYAHeudxvKUslVf1Y4HNYQOKSpUkRu3xTvjAiTvPjhiThl1W
+  JWT_TTL: 86400
+  JWT_REFRESH_TTL: 86400
+  JWT_ALGO: HS256
+  SESSION_DOMAIN: cuidam.os
+  LOG_CHANNEL: stack
+  LOG_DEPRECATIONS_CHANNEL: null
+  LOG_LEVEL: debug
+  DB_CONNECTION: mysql
+  DB_HOST: 127.0.0.1
+  DB_PORT: 3306
+  DB_DATABASE: cuidamos
+  DB_USERNAME: root
+  DB_PASSWORD: 151289Aa!
+  BROADCAST_DRIVER: log
+  CACHE_DRIVER: file
+  FILESYSTEM_DISK: local
+  QUEUE_CONNECTION: sync
+  SESSION_DRIVER: file
+  SESSION_LIFETIME: 120
+  MEMCACHED_HOST: memcached
+  VITE_PUSHER_APP_KEY: "${PUSHER_APP_KEY}"
+  VITE_PUSHER_HOST: "${PUSHER_HOST}"
+  VITE_PUSHER_PORT: "${PUSHER_PORT}"
+  VITE_PUSHER_SCHEME: "${PUSHER_SCHEME}"
+  VITE_PUSHER_APP_CLUSTER: "${PUSHER_APP_CLUSTER}"
+  FIREBASE_DATABASE_URL: https://tcc-unip-4f80f-default-rtdb.firebaseio.com/
+beta_settings:
+  cloud_sql_instances: "tcc-unip-4f80f:us-central1:cuidamos"
