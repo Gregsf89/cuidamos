@@ -35,3 +35,4 @@ jobs:
           DB_DATABASE: databse/database.sqlite
           FIREBASE_DATABASE_URL: https://tcc-unip-4f80f-default-rtdb.firebaseio.com/
           FIREBASE_CREDENTIALS: ./service-account.json
+        run: vendor/bin/phpunit
