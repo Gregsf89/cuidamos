@@ -74,9 +74,8 @@ class AuthService extends Service
             ]);
         } catch (Exception) {
             $firebaseAuth->deleteUser($firebaseUser['uid']);
-            throw new Exception('Error creating account', 100091);
+            throw new Exception('error_storing_the_account_on_database', 100091);
         }
-
 
         auth()->setUser($account); //Define o account como o usuário autenticado        
         $token = JwtHelper::buildToken(['sub' => $account->uid]); //Gera o token do usuário
