@@ -63,11 +63,16 @@ class AuthService extends Service
 
         $firebaseUser = $firebaseAuth->createUser($userProperties);
 
-        $account = $accountRepository->create([
-            'uid' => $firebaseUser['uid'],
-            'email' => $credentials['email'],
-            'password' => Hash::make($credentials['password'])
-        ]);
+        try {
+            $account = $accountRepository->create([
+                'uid' => $firebaseUser['uid'],
+                'email' => $credentials['email'],
+                'password' => Hash::make($credentials['password'])
+            ]);
+        } catch (Exception) {
+            $firebaseAuth->deleteUser($firebaseUser['uid']);
+            throw new Exception('error_storing_the_account_on_database', 100091);
+        }
 
         auth()->setUser($account); //Define o account como o usuário autenticado        
         $token = JwtHelper::buildToken(['sub' => $account->uid]); //Gera o token do usuário

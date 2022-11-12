@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "darkaonline/l5-swagger": "^8.4",
         "guzzlehttp/guzzle": "^7.2",
         "kreait/laravel-firebase": "^4.2",
         "laravel/framework": "^9.19",
@@ -17,7 +18,7 @@
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.0.1",
+        "laravel/sail": "^1.16",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
@@ -48,6 +49,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "post-deploy-cmd": [
+            "@php artisan migrate:fresh --seed --force"
         ]
     },
     "extra": {

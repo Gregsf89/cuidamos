@@ -6,7 +6,7 @@ use Exception;
 use Kreait\Firebase\Exception\Auth\EmailExists;
 use Kreait\Firebase\Exception\Auth\EmailNotFound;
 use Kreait\Firebase\Exception\Auth\UserNotFound;
-use Kreait\Firebase\Auth\UserRecord;
+use Kreait\Firebase\Exception\AuthException;
 
 class FirebaseWrapper
 {
@@ -191,6 +191,22 @@ class FirebaseWrapper
             return $this->_auth->getEmailVerificationLink($email);
         } catch (\Kreait\Firebase\Exception\Auth\EmailNotFound) {
             throw new EmailNotFound('invalid_email', 100089);
+        }
+    }
+
+    /**
+     * Função responsável deletar um usuário do firebase
+     * 
+     * @param string $uid The user uid
+     */
+    public function deleteUserByUid(string $uid): void
+    {
+        try {
+            $this->_auth->deleteUser($uid);
+        } catch (UserNotFound $e) {
+            throw new Exception($e->getMessage());
+        } catch (AuthException $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }
