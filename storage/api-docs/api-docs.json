@@ -1,0 +1,195 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Cuidam.os API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth Login",
+                "description": "Login an existing user",
+                "operationId": "auth_login",
+                "requestBody": {
+                    "description": "The request body receives email and password",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "email@email.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "YouAmazingPasswordWithMinimunLenght8SpecialCharacterCapitalLetter"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Auth Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "auth_info": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 21
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Eletrocardiograma"
+                                                        },
+                                                        "main": {
+                                                            "type": "boolean",
+                                                            "example": 0
+                                                        },
+                                                        "worker_id": {
+                                                            "type": "integer",
+                                                            "example": null
+                                                        },
+                                                        "member_id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "company_id": {
+                                                            "type": "integer",
+                                                            "example": null
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {}
+                ]
+            }
+        },
+        "/api/auth/create": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth Create",
+                "description": "Create a new user",
+                "operationId": "auth_create",
+                "requestBody": {
+                    "description": "The request body receives email and password and a password confirmation",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "email@email.com"
+                                    },
+                                    "password": {
+                                        "description": "The password must have at least 8 characters, one capital letter, one number and one special character",
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "YouAmazingPasswordWithMinimunLenght8SpecialCharacterCapitalLetter"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "The password confirmation must be the same as the password",
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "YouAmazingPasswordWithMinimunLenght8SpecialCharacterCapitalLetter"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Auth Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "auth_info": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 21
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Eletrocardiograma"
+                                                        },
+                                                        "main": {
+                                                            "type": "boolean",
+                                                            "example": 0
+                                                        },
+                                                        "worker_id": {
+                                                            "type": "integer",
+                                                            "example": null
+                                                        },
+                                                        "member_id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "company_id": {
+                                                            "type": "integer",
+                                                            "example": null
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {}
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "cuidamos": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
