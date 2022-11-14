@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\WardshipController;
 
-Route::post('/wardship/create', [WardshipController::class, 'create']);
-Route::post('/wardship/show', [WardshipController::class, 'show']);
-Route::get('/wardship/list', [WardshipController::class, 'list']);
-Route::post('/wardship/update', [WardshipController::class, 'update']);
-Route::post('/wardship/delete', [WardshipController::class, 'delete']);
+Route::prefix('wardship')->group(
+    function () {
+        Route::post('/create', [WardshipController::class, 'create']);
+        Route::post('/show', [WardshipController::class, 'show']);
+        Route::get('/list', [WardshipController::class, 'list']);
+        Route::post('/update', [WardshipController::class, 'update']);
+        Route::post('/delete', [WardshipController::class, 'delete']);
+    }
+);

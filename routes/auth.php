@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 
-Route::post('/auth/login', [AuthController::class, 'login']);
-Route::get('/auth/logout', [AuthController::class, 'logout']);
-Route::post('/auth/create', [AuthController::class, 'create']);
-Route::post('/auth/show', [AuthController::class, 'show']);
+Route::prefix('auth')->group(
+    function () {
+        Route::post('/login', [AuthController::class, 'login'])->name('auth_login');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('auth_logout');
+        Route::post('/create', [AuthController::class, 'create'])->name('auth_create');
+        Route::post('/show', [AuthController::class, 'show'])->name('auth_show');
+    }
+);
