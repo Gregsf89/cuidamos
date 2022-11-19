@@ -32,7 +32,6 @@ class UserController extends Controller
      *       mediaType="application/json",
      *       @OA\Schema(
      *          @OA\Property(property="user_info", type="object",
-     *              @OA\Property(property="user_id", type="integer", example="1"),
      *              @OA\Property(property="city_id", type="integer", example="23"),
      *              @OA\Property(property="gender_id", type="integer", example="1"),
      *              @OA\Property(property="document", type="string", example="32165498732"),
@@ -81,7 +80,6 @@ class UserController extends Controller
     public function create(Request $request): array
     {
         $data = $request->only([
-            'user_id',
             'city_id',
             'gender_id',
             'document',
@@ -96,7 +94,6 @@ class UserController extends Controller
         $validator = Validator::make(
             $data,
             [
-                'user_id' => 'required|integer|exists:users,id,deleted_at,NULL',
                 'city_id' => 'required|integer|exists:cities,id',
                 'gender_id' => 'required|integer|exists:genders,id',
                 'document' => 'required|string|min:11|max:14',
@@ -113,6 +110,7 @@ class UserController extends Controller
             throw new Exception($validator->errors(), 100007);
         }
 
+        $data['account_id'] = auth()->user()->id;
         return (new UserResource(
             $this->service->create($data)
         ))->resolve();
@@ -228,7 +226,6 @@ class UserController extends Controller
     public function update(Request $request): array
     {
         $data = $request->only([
-            'user_id',
             'city_id',
             'gender_id',
             'document',

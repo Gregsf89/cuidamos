@@ -21,11 +21,14 @@ class UserService extends Service
     /**
      * Create a new user info
      * 
-     * @param array $credentials The user credentials
+     * @param array $data the info to be added to the user
      * @return array
      */
-    public function create(array $credentials): array
+    public function create(array $credentials): ?UserInfo
     {
+        $user = $this->repository->getByUid($credentials['uid']);
+
+        return $user->userInfo()->create($credentials);
     }
 
     /**
@@ -41,9 +44,9 @@ class UserService extends Service
      * @param string $token
      * @return array
      */
-    protected function delete(string $token): array
+    protected function delete(string $token): void
     {
-        return [
+        [
             'token' => $token,
             'token_type' => 'bearer',
         ];
@@ -52,9 +55,9 @@ class UserService extends Service
     /**
      * Get the token array structure.
      * @param string $token
-     * @return array
+     * @return UserInfo
      */
-    protected function update(string $token): array
+    protected function update(string $token): UserInfo
     {
         return [
             'token' => $token,
