@@ -183,6 +183,493 @@
                     }
                 ]
             }
+        },
+        "/api/user/create": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Create",
+                "description": "Creates a new user",
+                "operationId": "user_create",
+                "requestBody": {
+                    "description": "The request body receives an array of objects containing the account and device info",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_info": {
+                                        "properties": {
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "city_id": {
+                                                "type": "integer",
+                                                "example": "23"
+                                            },
+                                            "gender_id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "document": {
+                                                "type": "string",
+                                                "example": "32165498732"
+                                            },
+                                            "first_name": {
+                                                "type": "string",
+                                                "example": "João"
+                                            },
+                                            "last_name": {
+                                                "type": "string",
+                                                "example": "Silva"
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "example": "Rua ABC do D"
+                                            },
+                                            "zip_code": {
+                                                "type": "string",
+                                                "example": "02330020"
+                                            },
+                                            "date_of_birth": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2022-01-01"
+                                            },
+                                            "address_complement": {
+                                                "description": "can be null",
+                                                "type": "string",
+                                                "example": "AP 145 BL 2"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "user_info": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "account_id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "email@email.com"
+                                                        },
+                                                        "uid": {
+                                                            "type": "string",
+                                                            "example": "gDWqJs73KPZXKb8jQOme1ZvCHzk2"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+5511987654321"
+                                                        },
+                                                        "state": {
+                                                            "type": "string",
+                                                            "example": "Bahia"
+                                                        },
+                                                        "city": {
+                                                            "type": "string",
+                                                            "example": "Salvador"
+                                                        },
+                                                        "gender": {
+                                                            "type": "string",
+                                                            "example": "Male"
+                                                        },
+                                                        "document": {
+                                                            "type": "string",
+                                                            "example": "32165498765"
+                                                        },
+                                                        "uuid": {
+                                                            "type": "string",
+                                                            "example": "36b43ea9-d061-48c1-9d61-df7c7ba0d9aa"
+                                                        },
+                                                        "first_name": {
+                                                            "type": "string",
+                                                            "example": "João"
+                                                        },
+                                                        "last_name": {
+                                                            "type": "string",
+                                                            "example": "Silva"
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "example": "Rua Abc do D"
+                                                        },
+                                                        "zip_code": {
+                                                            "type": "string",
+                                                            "example": "02330012"
+                                                        },
+                                                        "date_of_birth": {
+                                                            "type": "string",
+                                                            "format": "date",
+                                                            "example": "2022-01-01"
+                                                        },
+                                                        "address_complement": {
+                                                            "description": "can be null",
+                                                            "type": "string",
+                                                            "example": "Bloco 2 AP 145"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cuidamos_auth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/delete": {
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Delete",
+                "description": "Deletes a member and his entire information on database",
+                "operationId": "user_delete",
+                "responses": {
+                    "200": {
+                        "description": "User Info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": "null"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cuidamos_auth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/show": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Show Info",
+                "description": "User get info",
+                "operationId": "user_show",
+                "responses": {
+                    "200": {
+                        "description": "User Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "user_info": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "account_id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "email@email.com"
+                                                        },
+                                                        "uid": {
+                                                            "type": "string",
+                                                            "example": "gDWqJs73KPZXKb8jQOme1ZvCHzk2"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+5511987654321"
+                                                        },
+                                                        "state": {
+                                                            "type": "string",
+                                                            "example": "Bahia"
+                                                        },
+                                                        "city": {
+                                                            "type": "string",
+                                                            "example": "Salvador"
+                                                        },
+                                                        "gender": {
+                                                            "type": "string",
+                                                            "example": "Male"
+                                                        },
+                                                        "document": {
+                                                            "type": "string",
+                                                            "example": "32165498765"
+                                                        },
+                                                        "uuid": {
+                                                            "type": "string",
+                                                            "example": "36b43ea9-d061-48c1-9d61-df7c7ba0d9aa"
+                                                        },
+                                                        "first_name": {
+                                                            "type": "string",
+                                                            "example": "João"
+                                                        },
+                                                        "last_name": {
+                                                            "type": "string",
+                                                            "example": "Silva"
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "example": "Rua Abc do D"
+                                                        },
+                                                        "zip_code": {
+                                                            "type": "string",
+                                                            "example": "02330012"
+                                                        },
+                                                        "date_of_birth": {
+                                                            "type": "string",
+                                                            "format": "date",
+                                                            "example": "2022-01-01"
+                                                        },
+                                                        "address_complement": {
+                                                            "description": "can be null",
+                                                            "type": "string",
+                                                            "example": "Bloco 2 AP 145"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cuidamos_auth": []
+                    }
+                ]
+            }
+        },
+        "/api/user/update": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Update",
+                "description": "User update",
+                "operationId": "user_update",
+                "requestBody": {
+                    "description": "User update arguments",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_info": {
+                                        "properties": {
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "city_id": {
+                                                "type": "integer",
+                                                "example": "23"
+                                            },
+                                            "gender_id": {
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "document": {
+                                                "type": "string",
+                                                "example": "32165498732"
+                                            },
+                                            "uuid": {
+                                                "type": "string",
+                                                "example": "19cce9f8-627e-4f30-a077-f888124a1a06"
+                                            },
+                                            "first_name": {
+                                                "type": "string",
+                                                "example": "João"
+                                            },
+                                            "last_name": {
+                                                "type": "string",
+                                                "example": "Silva"
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "example": "Rua ABC do D"
+                                            },
+                                            "zip_code": {
+                                                "type": "string",
+                                                "example": "02330020"
+                                            },
+                                            "date_of_birth": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2022-01-01"
+                                            },
+                                            "address_complement": {
+                                                "description": "can be null",
+                                                "type": "string",
+                                                "example": "AP 145 BL 2"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "user_info": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "account_id": {
+                                                            "type": "integer",
+                                                            "example": "1"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": "email@email.com"
+                                                        },
+                                                        "uid": {
+                                                            "type": "string",
+                                                            "example": "gDWqJs73KPZXKb8jQOme1ZvCHzk2"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "+5511987654321"
+                                                        },
+                                                        "state": {
+                                                            "type": "string",
+                                                            "example": "Bahia"
+                                                        },
+                                                        "city": {
+                                                            "type": "string",
+                                                            "example": "Salvador"
+                                                        },
+                                                        "gender": {
+                                                            "type": "string",
+                                                            "example": "Male"
+                                                        },
+                                                        "document": {
+                                                            "type": "string",
+                                                            "example": "32165498765"
+                                                        },
+                                                        "uuid": {
+                                                            "type": "string",
+                                                            "example": "36b43ea9-d061-48c1-9d61-df7c7ba0d9aa"
+                                                        },
+                                                        "first_name": {
+                                                            "type": "string",
+                                                            "example": "João"
+                                                        },
+                                                        "last_name": {
+                                                            "type": "string",
+                                                            "example": "Silva"
+                                                        },
+                                                        "address": {
+                                                            "type": "string",
+                                                            "example": "Rua Abc do D"
+                                                        },
+                                                        "zip_code": {
+                                                            "type": "string",
+                                                            "example": "02330012"
+                                                        },
+                                                        "date_of_birth": {
+                                                            "type": "string",
+                                                            "format": "date",
+                                                            "example": "2022-01-01"
+                                                        },
+                                                        "address_complement": {
+                                                            "description": "can be null",
+                                                            "type": "string",
+                                                            "example": "Bloco 2 AP 145"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cuidamos_auth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
