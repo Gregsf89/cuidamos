@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\UserController;
 
-Route::prefix('user')->group(
+Route::middleware(['auth:api'])->prefix('user')->group(
     function () {
         Route::post('/create', [UserController::class, 'create']);
         Route::post('/show', [UserController::class, 'show']);

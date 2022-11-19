@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ResourceController;
 
-Route::prefix('resource')->group(
+Route::middleware(['auth:api'])->prefix('resource')->group(
     function () {
         Route::post('/city/search', [ResourceController::class, 'searchCity']);
         Route::get('/federative_units/list', [ResourceController::class, 'listFederativeUnits']);

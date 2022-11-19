@@ -20,7 +20,7 @@ class AuthController extends Controller
      * @OA\Post(
      * path="/api/auth/login",
      * summary="Auth Login",
-     * description="Login an existing user",
+     * description="Login an existing account",
      * operationId="auth_login",
      * tags={"Auth"},
      * security={{}},
@@ -42,15 +42,10 @@ class AuthController extends Controller
      *       mediaType="application/json",
      *       @OA\Schema(
      *          @OA\Property(property="data", type="object",
-     *              @OA\Property(property="auth_info", type="object",
-     *                  @OA\Property(property="id", type="integer", example=21),
-     *                  @OA\Property(property="name", type="string", example="Eletrocardiograma"),
-     *                  @OA\Property(property="main", type="boolean", example=0),
-     *                  @OA\Property(property="worker_id", type="integer", example=null),
-     *                  @OA\Property(property="member_id", type="integer", example=2),
-     *                  @OA\Property(property="company_id", type="integer", example=null),
-     *              )
-     *          )
+     *              @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRFdxSnM3M0tQWlhLYjhqUU9tZTFadkNIemsyIiwiaXNzIjoiaHR0cDovL2N1aWRhbS5vcyIsImlhdCI6MTY2ODg2NjUwNiwiZXhwIjoxNjY4OTUyOTA2LCJuYmYiOjE2Njg4NjY1MDZ9.wY8VmD--_wln_UN6bW3AiSYiv5F9s-P2H0NiwCklSBk"),
+     *              @OA\Property(property="email_link_confirmation", type="string", example="https://cuidamos-91643.firebaseapp.com/__/auth/action?mode=verifyEmail&oobCode=4Rg_o4AQMQEDIIAkJHWZLqctXNa8QGcdq39TmSMtFtUAAAGEkDH9nQ&apiKey=AIzaSyAMbxYok6O6NrdTkGb-O47TObrx1DUTjFw&lang=en")
+     *          ),
+     *          @OA\Property(property="error", type="null", example=null)
      *       )
      *    )
      * )
@@ -80,7 +75,7 @@ class AuthController extends Controller
      * @OA\Post(
      * path="/api/auth/create",
      * summary="Auth Create",
-     * description="Create a new user",
+     * description="Create a new account",
      * operationId="auth_create",
      * tags={"Auth"},
      * security={{}},
@@ -103,15 +98,9 @@ class AuthController extends Controller
      *       mediaType="application/json",
      *       @OA\Schema(
      *          @OA\Property(property="data", type="object",
-     *              @OA\Property(property="auth_info", type="object",
-     *                  @OA\Property(property="id", type="integer", example=21),
-     *                  @OA\Property(property="name", type="string", example="Eletrocardiograma"),
-     *                  @OA\Property(property="main", type="boolean", example=0),
-     *                  @OA\Property(property="worker_id", type="integer", example=null),
-     *                  @OA\Property(property="member_id", type="integer", example=2),
-     *                  @OA\Property(property="company_id", type="integer", example=null),
-     *              )
-     *          )
+     *              @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRFdxSnM3M0tQWlhLYjhqUU9tZTFadkNIemsyIiwiaXNzIjoiaHR0cDovL2N1aWRhbS5vcyIsImlhdCI6MTY2ODg2NjUwNiwiZXhwIjoxNjY4OTUyOTA2LCJuYmYiOjE2Njg4NjY1MDZ9.wY8VmD--_wln_UN6bW3AiSYiv5F9s-P2H0NiwCklSBk"),
+     *          ),
+     *          @OA\Property(property="error", type="null", example=null)
      *       )
      *    )
      * )
@@ -138,6 +127,29 @@ class AuthController extends Controller
         return $this->service->create($credentials);
     }
 
+    /**
+     * @OA\Get(
+     * path="/api/auth/logout",
+     * summary="Auth Logout",
+     * description="Logout an logged account",
+     * operationId="auth_logout",
+     * tags={"Auth"},
+     * security={{}},
+     * @OA\Response(
+     *    response=200,
+     *    description="Auth Data",
+     *    @OA\MediaType(
+     *       mediaType="application/json",
+     *       @OA\Schema(
+     *          @OA\Property(property="data", type="object",
+     *              @OA\Property(property="message", type="string", example="Successfully logged out"),
+     *          ),
+     *          @OA\Property(property="error", type="null", example=null)
+     *       )
+     *    )
+     * )
+     * )
+     */
     public function logout()
     {
         auth()->logout();

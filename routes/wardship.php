@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\WardshipController;
 
-Route::prefix('wardship')->group(
+Route::middleware(['auth:api'])->prefix('wardship')->group(
     function () {
         Route::post('/create', [WardshipController::class, 'create']);
         Route::post('/show', [WardshipController::class, 'show']);

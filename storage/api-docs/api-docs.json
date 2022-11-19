@@ -11,7 +11,7 @@
                     "Auth"
                 ],
                 "summary": "Auth Login",
-                "description": "Login an existing user",
+                "description": "Login an existing account",
                 "operationId": "auth_login",
                 "requestBody": {
                     "description": "The request body receives email and password",
@@ -45,37 +45,20 @@
                                     "properties": {
                                         "data": {
                                             "properties": {
-                                                "auth_info": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "integer",
-                                                            "example": 21
-                                                        },
-                                                        "name": {
-                                                            "type": "string",
-                                                            "example": "Eletrocardiograma"
-                                                        },
-                                                        "main": {
-                                                            "type": "boolean",
-                                                            "example": 0
-                                                        },
-                                                        "worker_id": {
-                                                            "type": "integer",
-                                                            "example": null
-                                                        },
-                                                        "member_id": {
-                                                            "type": "integer",
-                                                            "example": 2
-                                                        },
-                                                        "company_id": {
-                                                            "type": "integer",
-                                                            "example": null
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRFdxSnM3M0tQWlhLYjhqUU9tZTFadkNIemsyIiwiaXNzIjoiaHR0cDovL2N1aWRhbS5vcyIsImlhdCI6MTY2ODg2NjUwNiwiZXhwIjoxNjY4OTUyOTA2LCJuYmYiOjE2Njg4NjY1MDZ9.wY8VmD--_wln_UN6bW3AiSYiv5F9s-P2H0NiwCklSBk"
+                                                },
+                                                "email_link_confirmation": {
+                                                    "type": "string",
+                                                    "example": "https://cuidamos-91643.firebaseapp.com/__/auth/action?mode=verifyEmail&oobCode=4Rg_o4AQMQEDIIAkJHWZLqctXNa8QGcdq39TmSMtFtUAAAGEkDH9nQ&apiKey=AIzaSyAMbxYok6O6NrdTkGb-O47TObrx1DUTjFw&lang=en"
                                                 }
                                             },
                                             "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"
@@ -95,7 +78,7 @@
                     "Auth"
                 ],
                 "summary": "Auth Create",
-                "description": "Create a new user",
+                "description": "Create a new account",
                 "operationId": "auth_create",
                 "requestBody": {
                     "description": "The request body receives email and password and a password confirmation",
@@ -136,37 +119,51 @@
                                     "properties": {
                                         "data": {
                                             "properties": {
-                                                "auth_info": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "integer",
-                                                            "example": 21
-                                                        },
-                                                        "name": {
-                                                            "type": "string",
-                                                            "example": "Eletrocardiograma"
-                                                        },
-                                                        "main": {
-                                                            "type": "boolean",
-                                                            "example": 0
-                                                        },
-                                                        "worker_id": {
-                                                            "type": "integer",
-                                                            "example": null
-                                                        },
-                                                        "member_id": {
-                                                            "type": "integer",
-                                                            "example": 2
-                                                        },
-                                                        "company_id": {
-                                                            "type": "integer",
-                                                            "example": null
-                                                        }
-                                                    },
-                                                    "type": "object"
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRFdxSnM3M0tQWlhLYjhqUU9tZTFadkNIemsyIiwiaXNzIjoiaHR0cDovL2N1aWRhbS5vcyIsImlhdCI6MTY2ODg2NjUwNiwiZXhwIjoxNjY4OTUyOTA2LCJuYmYiOjE2Njg4NjY1MDZ9.wY8VmD--_wln_UN6bW3AiSYiv5F9s-P2H0NiwCklSBk"
                                                 }
                                             },
                                             "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {}
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth Logout",
+                "description": "logout an logged account",
+                "operationId": "auth_logout",
+                "responses": {
+                    "200": {
+                        "description": "Auth Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
                                         }
                                     },
                                     "type": "object"
