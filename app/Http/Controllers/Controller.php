@@ -13,7 +13,7 @@ use Illuminate\Routing\Controller as BaseController;
  *    version="1.0.0",
  * ),
  * @OA\SecurityScheme(
- *      securityScheme="cuidamos",
+ *      securityScheme="cuidamos_auth",
  *      in="header",
  *      name="Authorization",
  *      type="http",

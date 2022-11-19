@@ -148,7 +148,7 @@
                     "Auth"
                 ],
                 "summary": "Auth Logout",
-                "description": "logout an logged account",
+                "description": "Logout an logged account",
                 "operationId": "auth_logout",
                 "responses": {
                     "200": {
@@ -158,8 +158,13 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "type": "null",
-                                            "example": null
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Successfully logged out"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
                                         "error": {
                                             "type": "null",
@@ -173,14 +178,16 @@
                     }
                 },
                 "security": [
-                    {}
+                    {
+                        "cuidamos_auth": []
+                    }
                 ]
             }
         }
     },
     "components": {
         "securitySchemes": {
-            "cuidamos": {
+            "cuidamos_auth": {
                 "type": "http",
                 "name": "Authorization",
                 "in": "header",

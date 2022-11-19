@@ -134,7 +134,7 @@ class AuthController extends Controller
      * description="Logout an logged account",
      * operationId="auth_logout",
      * tags={"Auth"},
-     * security={{}},
+     * security={{"cuidamos_auth":{}}},
      * @OA\Response(
      *    response=200,
      *    description="Auth Data",
