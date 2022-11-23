@@ -69,4 +69,14 @@ class Wardship extends Model
     {
         return $this->belongsTo(City::class);
     }
+
+    /**
+     * Returns the wardship's city
+     * 
+     * @return array|null
+     */
+    public function lastPosition(): ?array
+    {
+        return $this->device->logs()->latest()->first()->toArray();
+    }
 }

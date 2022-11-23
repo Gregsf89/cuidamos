@@ -51,7 +51,8 @@ class AuthService extends Service
 
         return [
             'token' => $this->respondWithToken($token)['token'],
-            'email_verified' => $this->firebaseWrapper->getUserData($loginInfo['firebase_user_id'], null)['email_verified']
+            'email_verified' => $this->firebaseWrapper->getUserData($loginInfo['firebase_user_id'], null)['email_verified'],
+            'phone_verified' => ($account->user->phone) ? true : false
         ];
     }
 

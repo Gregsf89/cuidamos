@@ -4,10 +4,11 @@ use App\Http\Controllers\WardshipController;
 
 Route::middleware(['auth:api'])->controller(WardshipController::class)->prefix('wardship')->group(
     function () {
-        Route::post('/create', 'create');
-        Route::post('/show', 'show');
+        Route::put('/add', 'add');
         Route::get('/list', 'list');
-        Route::post('/update', 'update');
-        Route::post('/delete', 'delete');
+        Route::delete('/delete/{id}', 'delete');
+        Route::get('/show/{id}', function ($id) {
+            return 'Wardship ' . $id;
+        });
     }
 );

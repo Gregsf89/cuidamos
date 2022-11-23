@@ -21,13 +21,13 @@ class UserController extends Controller
      * @OA\Post(
      * path="/api/user/add",
      * summary="User Add",
-     * description="Creates or Updates a user info",
+     * description="Creates or Updates an user info",
      * operationId="user_add",
      * tags={"User"},
      * security={{"cuidamos_auth":{}}},
      * @OA\RequestBody(
      *    required=true,
-     *    description="The request body receives an array of objects containing the account and device info",
+     *    description="The request body receives an array of objects containing the user info",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
@@ -77,18 +77,18 @@ class UserController extends Controller
      * )
      * )
      */
-    public function create(Request $request): array
+    public function add(Request $request): array
     {
         $data = $request->only([
-            'city_id',
-            'gender_id',
-            'document',
-            'first_name',
-            'last_name',
-            'address',
-            'zip_code',
-            'date_of_birth',
-            'address_complement'
+            'user_info.city_id',
+            'user_info.gender_id',
+            'user_info.document',
+            'user_info.first_name',
+            'user_info.last_name',
+            'user_info.address',
+            'user_info.zip_code',
+            'user_info.date_of_birth',
+            'user_info.address_complement'
         ]);
 
         $validator = Validator::make(
@@ -119,7 +119,7 @@ class UserController extends Controller
     /**
      * @OA\Get(
      * path="/api/user/show",
-     * summary="User Show Info",
+     * summary="User Show",
      * description="User get info",
      * operationId="user_show",
      * tags={"User"},
@@ -159,7 +159,7 @@ class UserController extends Controller
     public function show(): array
     {
         return (new UserResource(
-            $this->service->show(auth()->user()->id)
+            $this->service->show(auth()->user()->user->id)
         ))->resolve();
     }
 }
