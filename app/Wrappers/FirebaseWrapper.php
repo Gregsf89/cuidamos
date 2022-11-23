@@ -132,6 +132,7 @@ class FirebaseWrapper
                     'email' => $user->email,
                     'phone' => $user->phoneNumber,
                     'provider' => $providers,
+                    'email_verified' => $user->emailVerified,
                     'status' => ($user->disabled) ? 'INACTIVE' : 'ACTIVE'
                 ];
             }

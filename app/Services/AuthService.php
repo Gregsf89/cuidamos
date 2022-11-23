@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Helpers\JwtHelper;
 use App\Wrappers\FirebaseWrapper;
 use App\Repositories\AccountRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Exception;
 
 /**
  * Class AuthService
@@ -14,6 +16,17 @@ use Illuminate\Support\Facades\Hash;
  */
 class AuthService extends Service
 {
+    private AccountRepository $accountRepository;
+    private UserRepository    $userRepository;
+    private FirebaseWrapper   $firebaseWrapper;
+
+    public function __construct(AccountRepository $accountRepository, UserRepository $userRepository, FirebaseWrapper $firebaseWrapper)
+    {
+        $this->accountRepository = $accountRepository;
+        $this->userRepository    = $userRepository;
+        $this->firebaseWrapper   = $firebaseWrapper;
+    }
+
     /**
      * Get a JWT via given credentials.
      * 
@@ -26,12 +39,9 @@ class AuthService extends Service
             abort(401, 'invalid_username_and_or_password');
         }
 
-        $firebaseAuth = (new FirebaseWrapper());
-        $accountRepository = (new AccountRepository());
+        $loginInfo = $this->firebaseWrapper->signInWithEmailAndPassword($credentials['email'], $credentials['password']);
 
-        $loginInfo = $firebaseAuth->signInWithEmailAndPassword($credentials['email'], $credentials['password']);
-
-        $account = $accountRepository->getByEmail($credentials['email']);
+        $account = $this->accountRepository->getByEmail($credentials['email']);
 
         $token = JwtHelper::buildToken([
             'sub' => $account->uid,
@@ -40,7 +50,8 @@ class AuthService extends Service
         auth()->setUser($account);
 
         return [
-            'token' => $this->respondWithToken($token)['token']
+            'token' => $this->respondWithToken($token)['token'],
+            'email_verified' => $this->firebaseWrapper->getUserData($loginInfo['firebase_user_id'], null)['email_verified']
         ];
     }
 
@@ -50,27 +61,31 @@ class AuthService extends Service
      * @param array $credentials The user credentials
      * @return array
      */
-    public function create(array $credentials) //: array
+    public function create(array $credentials): array
     {
-        $firebaseAuth = (new FirebaseWrapper());
-        $accountRepository = (new AccountRepository());
-
         $userProperties  = [
             'email' => $credentials['email'],
             'password' => $credentials['password'],
             'emailVerified' => false
         ];
 
-        $firebaseUser = $firebaseAuth->createUser($userProperties);
+        $firebaseUser = $this->firebaseWrapper->createUser($userProperties);
 
         try {
-            $account = $accountRepository->create([
+            $account = $this->accountRepository->create([
                 'uid' => $firebaseUser['uid'],
                 'email' => $credentials['email'],
                 'password' => Hash::make($credentials['password'])
             ]);
+
+            $this->userRepository->create([
+                'account_id' => $account->id,
+                'email' => $credentials['email'],
+                'uid' => $firebaseUser['uid'],
+                'phone' => ' '
+            ]);
         } catch (Exception) {
-            $firebaseAuth->deleteUser($firebaseUser['uid']);
+            $this->firebaseWrapper->deleteUser($firebaseUser['uid']);
             throw new Exception('error_storing_the_account_on_database', 100091);
         }
 

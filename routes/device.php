@@ -10,6 +10,7 @@ Route::controller(DeviceController::class)->prefix('device')->group(
             Route::post('/imei/get', 'getByImei');
             Route::get('/list', 'list');
             Route::post('/unlink', 'unlink');
+            Route::get('/position/get', 'getPosition');
         });
     }
 );

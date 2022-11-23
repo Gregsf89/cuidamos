@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Account;
-use Exception;
 
 /**
  * Class AccountRepository
@@ -40,7 +39,7 @@ class AccountRepository extends Repository
      */
     public function create(array $data): ?Account
     {
-        return (Account::updateOrCreate($data))->fresh();
+        return Account::create($data)->fresh();
     }
 
     /**

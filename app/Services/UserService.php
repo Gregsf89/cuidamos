@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Account;
 use App\Models\UserInfo;
-use App\Repositories\UserRepository;
+use App\Repositories\UserInfoRepository;
 
 /**
  * Class UserService
@@ -11,9 +12,9 @@ use App\Repositories\UserRepository;
  */
 class UserService extends Service
 {
-    private UserRepository $repository;
+    private UserInfoRepository $repository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserInfoRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -22,46 +23,24 @@ class UserService extends Service
      * Create a new user info
      * 
      * @param array $data the info to be added to the user
-     * @return array
-     */
-    public function create(array $credentials): ?UserInfo
-    {
-        $user = $this->repository->getByUid($credentials['uid']);
-
-        return $user->userInfo()->create($credentials);
-    }
-
-    /**
-     * Get the authenticated User.
-     */
-    public function show(): ?UserInfo
-    {
-        return $this->repository->create();
-    }
-
-    /**
-     * Get the token array structure.
-     * @param string $token
-     * @return array
-     */
-    protected function delete(string $token): void
-    {
-        [
-            'token' => $token,
-            'token_type' => 'bearer',
-        ];
-    }
-
-    /**
-     * Get the token array structure.
-     * @param string $token
+     * @param Account $account the account that owns the user
      * @return UserInfo
      */
-    protected function update(string $token): UserInfo
+    public function updateOrCreate(array $data, Account $account): UserInfo
     {
-        return [
-            'token' => $token,
-            'token_type' => 'bearer',
-        ];
+        $userId = $account->user->id;
+
+        return $this->repository->updateOrCreate($data, $userId);
+    }
+
+    /**
+     * show
+     *
+     * @param int $userId
+     * @return UserInfo The user's account model
+     */
+    public function show(int $userId): ?UserInfo
+    {
+        return $this->repository->show($userId);
     }
 }

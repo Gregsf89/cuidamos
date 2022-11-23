@@ -40,11 +40,7 @@ class UserRepository extends Repository
      */
     public function create(array $data): User
     {
-        if ($this->getByUid($data['uid'])) {
-            throw new Exception('uid_already_exists', 504);
-        }
-
-        return (User::create($data))->fresh();
+        return User::create($data)->fresh();
     }
 
     /**
