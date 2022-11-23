@@ -184,6 +184,235 @@
                 ]
             }
         },
+        "/api/city/search": {
+            "post": {
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "City Search",
+                "description": "Search for a city by name",
+                "operationId": "city_search",
+                "requestBody": {
+                    "description": "The request body receives an array of objects containing the city_name and/or federative_unit_id as initials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "city_name": {
+                                        "type": "string",
+                                        "example": "São Paulo"
+                                    },
+                                    "federative_unit_id": {
+                                        "description": "the initials of the federative unit",
+                                        "type": "string",
+                                        "example": "SP"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "cities_info": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": "1"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Abadia dos Dourados"
+                                                            },
+                                                            "federative_unit_id": {
+                                                                "type": "string",
+                                                                "example": "MG"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "example": [
+                                                        {
+                                                            "id": 2245,
+                                                            "name": "Abadia dos Dourados",
+                                                            "federative_unit_id": "MG"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cuidamos_auth": []
+                    }
+                ]
+            }
+        },
+        "/api/federative_units/list": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Federative Units List",
+                "description": "List all federative units",
+                "operationId": "federative_units_list",
+                "responses": {
+                    "200": {
+                        "description": "User Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "federative_units_info": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "string",
+                                                                "example": "AC"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Acre"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "example": [
+                                                        {
+                                                            "id": "AC",
+                                                            "name": "Acre"
+                                                        },
+                                                        {
+                                                            "id": "AL",
+                                                            "name": "Alagoas"
+                                                        },
+                                                        [
+                                                            "..."
+                                                        ]
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cuidamos_auth": []
+                    }
+                ]
+            }
+        },
+        "/api/gender/list": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "summary": "Genders List",
+                "description": "List all genders",
+                "operationId": "genders_list",
+                "responses": {
+                    "200": {
+                        "description": "User Data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "genders_info": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": "1"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Male"
+                                                            },
+                                                            "initials": {
+                                                                "type": "string",
+                                                                "example": "M"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "example": [
+                                                        {
+                                                            "id": 1,
+                                                            "name": "Male",
+                                                            "initials": "M"
+                                                        },
+                                                        {
+                                                            "id": 2,
+                                                            "name": "Female",
+                                                            "initials": "F"
+                                                        },
+                                                        {
+                                                            "id": 3,
+                                                            "name": "Other",
+                                                            "initials": "O"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "cuidamos_auth": []
+                    }
+                ]
+            }
+        },
         "/api/user/add": {
             "post": {
                 "tags": [
@@ -459,7 +688,7 @@
             }
         },
         "/api/wardship/add": {
-            "patch": {
+            "put": {
                 "tags": [
                     "Wardship"
                 ],
@@ -943,23 +1172,6 @@
                 "summary": "Wardship Delete",
                 "description": "Deletes a wardship",
                 "operationId": "wardship_delete",
-                "requestBody": {
-                    "description": "The request body receives the wardhsip id",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "wardship_id": {
-                                        "type": "integer",
-                                        "example": "1"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "User Data",

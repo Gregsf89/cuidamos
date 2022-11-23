@@ -252,16 +252,6 @@ class WardshipController extends Controller
      * operationId="wardship_delete",
      * tags={"Wardship"},
      * security={{"cuidamos_auth":{}}},
-     * @OA\RequestBody(
-     *    required=true,
-     *    description="The request body receives the wardhsip id",
-     *    @OA\MediaType(
-     *       mediaType="application/json",
-     *       @OA\Schema(
-     *          @OA\Property(property="wardship_id", type="integer", example="1")
-     *       )
-     *    )
-     * ),
      * @OA\Response(
      *    response=200,
      *    description="User Data",
