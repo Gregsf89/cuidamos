@@ -11,7 +11,7 @@ class DeviceController extends Controller
 {
     /**
      * @OA\Post(
-     * path="/api/auth/login",
+     * path="/api/device/list",
      * summary="Auth Login",
      * description="Login an existing account",
      * operationId="auth_login",
