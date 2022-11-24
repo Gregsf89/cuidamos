@@ -12,42 +12,76 @@ class DeviceController extends Controller
     /**
      * @OA\Post(
      * path="/api/device/list",
-     * summary="Auth Login",
-     * description="Login an existing account",
-     * operationId="auth_login",
-     * tags={"Auth"},
+     * summary="Device Log",
+     * description="Register a GNSS log of a device",
+     * operationId="device_log",
+     * tags={"Device"},
      * security={{}},
      * @OA\RequestBody(
      *    required=true,
-     *    description="The request body receives email and password",
+     *    description="The request body receives the GNSS data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
-     *          @OA\Property(property="email", type="string", example="email@email.com", maxLength=100),
-     *          @OA\Property(property="password", type="string", example="YouAmazingPasswordWithMinimunLenght8SpecialCharacterCapitalLetter", maxLength=100)
+     *          @OA\Property(property="device_id", type="integer", example="1"),
+     *          @OA\Property(property="latitude", type="number", format="double", example=-23.123456),
+     *          @OA\Property(property="longitude", type="number", format="double", example=-45.123456),
+     *          @OA\Property(property="altitude", type="number", format="double", example=621.1),
+     *          @OA\Property(property="date", type="string", example="2022-01-01"),
+     *          @OA\Property(property="time", type="string", example="10:01:59"),
+     *          @OA\Property(property="speed", type="number", format="double", example=10.45),
+     *          @OA\Property(property="accuracy", type="integer", example="São Paulo")
      *       )
      *    )
      * ),
      * @OA\Response(
      *    response=200,
-     *    description="Auth Data",
+     *    description="Device Log Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
-     *          @OA\Property(property="data", type="object",
-     *              @OA\Property(property="token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnRFdxSnM3M0tQWlhLYjhqUU9tZTFadkNIemsyIiwiaXNzIjoiaHR0cDovL2N1aWRhbS5vcyIsImlhdCI6MTY2ODg2NjUwNiwiZXhwIjoxNjY4OTUyOTA2LCJuYmYiOjE2Njg4NjY1MDZ9.wY8VmD--_wln_UN6bW3AiSYiv5F9s-P2H0NiwCklSBk"),
-     *              @OA\Property(property="email_link_confirmation", type="string", example="https://cuidamos-91643.firebaseapp.com/__/auth/action?mode=verifyEmail&oobCode=4Rg_o4AQMQEDIIAkJHWZLqctXNa8QGcdq39TmSMtFtUAAAGEkDH9nQ&apiKey=AIzaSyAMbxYok6O6NrdTkGb-O47TObrx1DUTjFw&lang=en")
-     *          ),
+     *          @OA\Property(property="data", type="null", example=null),
      *          @OA\Property(property="error", type="null", example=null)
      *       )
      *    )
      * )
      * )
      */
-    public function list() //: array
+    public function registerLog(Request $request): void
     {
-        $user = auth()->user();
-        return (new DeviceService())->list($user->id);
+        $data = $request->only([
+            'device_id',
+            'wardship_id',
+            'latitude',
+            'longitude',
+            'altitude',
+            'date',
+            'time',
+            'speed',
+            'accuracy'
+        ]);
+
+        $validator = Validator::make(
+            $data,
+            [
+                'device_id' => 'required|integer|exists:devices,id,deleted_at,NULL',
+                'wardship_id' => "required|integer|exists:wardships,id,deleted_at,NULL,device_id,{$data['device_id']}",
+                'latitude' => 'required|numeric',
+                'longitude' => 'required|numeric',
+                'altitude' => 'required|numeric',
+                'date' => 'required|date_format:Y-m-d',
+                'time' => 'required|date_format:H:i:s',
+                'speed' => 'nullable|numeric',
+                'accuracy' => 'nullable|numeric'
+            ],
+            $this->customMessages
+        );
+
+        if ($validator->fails()) {
+            throw new Exception($validator->errors(), 100001);
+        }
+
+        (new DeviceService())->registerLog($data['wardship_id'], $data['device_id']);
     }
 
     public function link(Request $request) //: array

@@ -14,7 +14,7 @@ class ResourceController extends Controller
      * path="/api/city/search",
      * summary="City Search",
      * description="Search for a city by name",
-     * operationId="city_search",
+     * operationId="resource_city_search",
      * tags={"Resource"},
      * security={{"cuidamos_auth":{}}},
      * @OA\RequestBody(
@@ -30,7 +30,7 @@ class ResourceController extends Controller
      * ),
      * @OA\Response(
      *    response=200,
-     *    description="User Data",
+     *    description="City Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
@@ -73,12 +73,12 @@ class ResourceController extends Controller
      * path="/api/federative_units/list",
      * summary="Federative Units List",
      * description="List all federative units",
-     * operationId="federative_units_list",
+     * operationId="resource_federative_unit_list",
      * tags={"Resource"},
      * security={{"cuidamos_auth":{}}},
      * @OA\Response(
      *    response=200,
-     *    description="User Data",
+     *    description="Federative Unit Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
@@ -106,12 +106,12 @@ class ResourceController extends Controller
      * path="/api/gender/list",
      * summary="Genders List",
      * description="List all genders",
-     * operationId="genders_list",
+     * operationId="resource_gender_list",
      * tags={"Resource"},
      * security={{"cuidamos_auth":{}}},
      * @OA\Response(
      *    response=200,
-     *    description="User Data",
+     *    description="Gender Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DeviceLog extends Model
 {
@@ -32,10 +32,10 @@ class DeviceLog extends Model
     /**
      * Returns the device that owns this log
      *
-     * @return HasOne
+     * @return BelongsTo
      */
-    public function device(): HasOne
+    public function device(): BelongsTo
     {
-        return $this->hasOne(Device::class);
+        return $this->belongsTo(Device::class);
     }
 }

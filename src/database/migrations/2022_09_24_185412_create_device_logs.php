@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('device_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('device_id')->constrained('devices')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('wardship_id')->nullable()->constrained('wardships')->cascadeOnDelete()->cascadeOnUpdate();
             $table->float('latitude', 10, 7, false);
             $table->float('longitude', 10, 7, false);
             $table->float('altitude', 10, 7, false);

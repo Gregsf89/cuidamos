@@ -17,12 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('device_id')->nullable()->constrained('devices')->cascadeOnDelete()->cascadeOnUpdate();
             $table->tinyInteger('gender_id', false, true)->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->date('date_of_birth');
             $table->string('email')->unique()->nullable();
-            $table->string('phone')->unique();
+            $table->string('phone')->unique()->nullable();
             $table->string('document')->unique();
             $table->string('uuid')->unique();
             $table->string('address');

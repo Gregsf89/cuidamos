@@ -50,7 +50,7 @@ class WardshipController extends Controller
      * ),
      * @OA\Response(
      *    response=200,
-     *    description="User Data",
+     *    description="Wardship Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
@@ -142,7 +142,7 @@ class WardshipController extends Controller
      * security={{"cuidamos_auth":{}}},
      * @OA\Response(
      *    response=200,
-     *    description="User Data",
+     *    description="Wardship Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
@@ -197,7 +197,7 @@ class WardshipController extends Controller
      * security={{"cuidamos_auth":{}}},
      * @OA\Response(
      *    response=200,
-     *    description="User Data",
+     *    description="Wardship Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(
@@ -254,7 +254,7 @@ class WardshipController extends Controller
      * security={{"cuidamos_auth":{}}},
      * @OA\Response(
      *    response=200,
-     *    description="User Data",
+     *    description="Wardship Data",
      *    @OA\MediaType(
      *       mediaType="application/json",
      *       @OA\Schema(

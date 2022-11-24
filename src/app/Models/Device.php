@@ -18,7 +18,6 @@ class Device extends Model
     protected $fillable = [
         'imei',
         'uuid',
-        'wardship_id',
         'carrier_name',
         'carrier_number'
     ];
