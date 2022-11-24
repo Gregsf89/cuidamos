@@ -4,7 +4,7 @@ RUN apk add --no-cache nginx wget
 
 RUN mkdir -p /run/nginx
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /app
 COPY . /app
@@ -16,4 +16,4 @@ RUN cd /app && \
 
 RUN chown -R www-data: /app
 
-CMD sh startup.sh
+CMD sh app/docker/startup.sh
