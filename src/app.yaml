@@ -23,7 +23,7 @@ metadata:
 spec:
   template:
     metadata:
-      name: cuidamos-app-placeholder
+      name: gcr.io/cuidamos-91643
       annotations:
         run.googleapis.com/client-name: cloud-console
         autoscaling.knative.dev/minScale: '1'
@@ -33,7 +33,7 @@ spec:
       timeoutSeconds: 300
       serviceAccountName: 1012186032501-compute@developer.gserviceaccount.com
       containers:
-      - image: gcr.io/cloudrun/placeholder
+      - image: gcr.io/cuidamos-91643/cuidamos@sha256:d8ec6731707e0ac22dd2f0e3ee0660a0c08c7ace6770a742d5d4cf622b1e6f52
         ports:
         - name: http1
           containerPort: 8080
@@ -77,7 +77,7 @@ spec:
         - name: DB_PASSWORD
           value: 151289Aa!
         - name: FIREBASE_DATABASE_URL
-          value: https://tcc-unip-4f80f-default-rtdb.firebaseio.com/
+          value: https://cuidamos-91643-default-rtdb.firebaseio.com/
         - name: MEMCACHED_HOST
           value: memcached
         - name: FIREBASE_CREDENTIALS
