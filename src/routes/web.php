@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\MemberCaregiverController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return json_encode(['message' => "Welcome to Cuidamos API. Access the URI /api/documentation to see the documentation."]);
 });
