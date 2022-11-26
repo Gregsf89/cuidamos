@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Helper;
 use App\Helpers\JwtHelper;
 use App\Wrappers\FirebaseWrapper;
 use App\Repositories\AccountRepository;
@@ -78,16 +79,21 @@ class AuthService extends Service
                 'email' => $credentials['email'],
                 'password' => Hash::make($credentials['password'])
             ]);
+        } catch (Exception) {
+            $this->firebaseWrapper->deleteUser($firebaseUser['uid']);
+        }
 
+        try {
             $this->userRepository->create([
                 'account_id' => $account->id,
                 'email' => $credentials['email'],
                 'uid' => $firebaseUser['uid'],
-                'phone' => ' '
+                'phone' => Helper::generateRandomString(13)
             ]);
         } catch (Exception) {
+            $this->accountRepository->delete($account->id);
             $this->firebaseWrapper->deleteUser($firebaseUser['uid']);
-            throw new Exception('error_storing_the_account_on_database', 100091);
+            throw new Exception('error_creating_user_on_database', 100091);
         }
 
         auth()->setUser($account); //Define o account como o usuário autenticado        
@@ -118,5 +124,17 @@ class AuthService extends Service
             'token' => $token,
             'token_type' => 'bearer',
         ];
+    }
+
+    /**
+     * Log the user out (Invalidate the token)
+     * 
+     * @param int $accountId
+     * @return void
+     */
+
+    public function logout(int $accountId): void
+    {
+        $this->accountRepository->logout($accountId);
     }
 }

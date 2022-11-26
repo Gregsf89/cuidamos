@@ -11,7 +11,7 @@ class DeviceController extends Controller
 {
     /**
      * @OA\Post(
-     * path="/api/device/list",
+     * path="/api/device/log",
      * summary="Device Log",
      * description="Register a GNSS log of a device",
      * operationId="device_log",

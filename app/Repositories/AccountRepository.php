@@ -45,35 +45,47 @@ class AccountRepository extends Repository
     /**
      * Deletes an Account
      * 
-     * @param int $id
+     * @param int $accountId
      */
-    public function delete(int $id): void
+    public function delete(int $accountId): void
     {
-        Account::where('id', $id)->forceDelete();
+        Account::where('id', $accountId)->forceDelete();
     }
 
     /**
      * Returns a Account by its id
      * 
-     * @param int $id
+     * @param int $accountId
      * @return Account|null
      */
-    public function show(int $id): ?Account
+    public function show(int $accountId): ?Account
     {
-        return Account::where('id', $id)->first();
+        return Account::where('id', $accountId)->first();
     }
 
     /**
      * Updates the info of a user
      * 
-     * @param int $id
+     * @param int $accountId
      * @param array $data
      * @return Account
      */
-    public function update(int $id, array $data): Account
+    public function update(int $accountId, array $data): Account
     {
-        $account = $this->show($id);
+        $account = $this->show($accountId);
         $account->fill($data)->save();
         return $account->fresh();
+    }
+
+    /**
+     * Logou the user
+     * 
+     * @return void
+     */
+    public function logout(int $accountId): void
+    {
+        $account = $this->show($accountId);
+        $account->remember_token = null;
+        $account->save();
     }
 }
