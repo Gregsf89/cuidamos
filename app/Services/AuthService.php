@@ -53,7 +53,7 @@ class AuthService extends Service
         return [
             'token' => $this->respondWithToken($token)['token'],
             'email_verified' => $this->firebaseWrapper->getUserData($loginInfo['firebase_user_id'], null)['email_verified'],
-            'phone_verified' => ($account->user->phone) ? true : false
+            'phone_verified' => (bool) $account->user->phone_verified
         ];
     }
 
@@ -87,8 +87,7 @@ class AuthService extends Service
             $this->userRepository->create([
                 'account_id' => $account->id,
                 'email' => $credentials['email'],
-                'uid' => $firebaseUser['uid'],
-                'phone' => Helper::generateRandomString(13)
+                'uid' => $firebaseUser['uid']
             ]);
         } catch (Exception) {
             $this->accountRepository->delete($account->id);
@@ -103,6 +102,26 @@ class AuthService extends Service
             'token' => $this->respondWithToken($token)['token'],
             'email_link_confirmation' => $firebaseUser['email_link_confirmation']
         ];
+    }
+
+    /**
+     * Get the authenticated User.
+     * 
+     * @param string $code
+     * @param int $userId
+     * @return void
+     */
+    public function validatePhoneCode(string $code, int $userId): void
+    {
+        $user = $this->userRepository->show($userId);
+
+        if ($user->phone_code !== $code) {
+            abort(401, 'invalid_phone_code');
+        }
+
+        $this->userRepository->update($userId, [
+            'phone_verified' => true
+        ]);
     }
 
     /**

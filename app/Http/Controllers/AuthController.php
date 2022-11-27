@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AuthService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -10,11 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    private AuthService $service;
+    private AuthService $authService;
+    private UserService $userService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, UserService $userService)
     {
-        $this->service = $authService;
+        $this->authService = $authService;
+        $this->userService = $userService;
     }
 
     /**
@@ -71,7 +74,7 @@ class AuthController extends Controller
             throw new Exception($validator->errors(), 100002);
         }
 
-        return $this->service->create($credentials);
+        return $this->authService->create($credentials);
     }
 
     /**
@@ -127,7 +130,7 @@ class AuthController extends Controller
             throw new Exception($validator->errors(), 100001);
         }
 
-        return $this->service->login($credentials);
+        return $this->authService->login($credentials);
     }
 
     /**
@@ -155,7 +158,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        $this->service->logout(auth()->user()->id);
+        $this->authService->logout(auth()->user()->id);
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
@@ -163,10 +166,10 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/auth/phone/validate",
-     * summary="Auth Phone Validate",
+     * path="/api/phone/code/validate",
+     * summary="Auth Phone Code Validate",
      * description="Validates the user phone number",
-     * operationId="auth_validate_phone",
+     * operationId="auth_validate_phone_code",
      * tags={"Auth"},
      * security={{"cuidamos_auth":{}}},
      * @OA\RequestBody(
@@ -192,30 +195,78 @@ class AuthController extends Controller
      * )
      * )
      */
-    public function validatePhone(Request $request): array
+    public function validatePhoneCode(Request $request): void
     {
-        $credentials = $request->only(['phone_code']);
+        $data = $request->only(['phone_code']);
 
         $validator = Validator::make(
-            $credentials,
+            $data,
             [
                 'phone_code' => 'required|string|min:6|max:6'
             ],
             $this->customMessages
         );
-
         if ($validator->fails()) {
             throw new Exception($validator->errors(), 100001);
         }
 
-        return $this->service->login($credentials);
+        $this->authService->validatePhoneCode($data['phone_code'], auth()->user()->user->id);
+    }
+
+    /**
+     * @OA\Post(
+     * path="/api/phone/code/send",
+     * summary="Auth Phone Code Send",
+     * description="Send a sms to the phone number informed",
+     * operationId="auth_send_phone_code",
+     * tags={"Auth"},
+     * security={{"cuidamos_auth":{}}},
+     * @OA\RequestBody(
+     *    required=true,
+     *    description="The request body receives the phone number",
+     *    @OA\MediaType(
+     *       mediaType="application/json",
+     *       @OA\Schema(
+     *          @OA\Property(property="phone_number", type="string", example="11999999999")
+     *       )
+     *    )
+     * ),
+     * @OA\Response(
+     *    response=200,
+     *    description="Auth Data",
+     *    @OA\MediaType(
+     *       mediaType="application/json",
+     *       @OA\Schema(
+     *          @OA\Property(property="data", type="null", example=null),
+     *          @OA\Property(property="error", type="null", example=null)
+     *       )
+     *    )
+     * )
+     * )
+     */
+    public function sendPhoneCode(Request $request): void
+    {
+        $data = $request->only(['phone_number']);
+
+        $validator = Validator::make(
+            $data,
+            [
+                'phone_number' => 'required|string|min:11|max:11|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,phone_number'
+            ],
+            $this->customMessages
+        );
+        if ($validator->fails()) {
+            throw new Exception($validator->errors(), 100001);
+        }
+
+        $this->userService->updateUser($data, auth()->user()->user->id);
     }
 
     /**
      * @OA\Get(
      * path="/api/auth/credentials/validate",
      * summary="Auth Credentials Validate",
-     * description="Returns if either the user email or phone number is already validated",
+     * description="Returns if both the user email and phone number is already validated",
      * operationId="auth_credentials_phone",
      * tags={"Auth"},
      * security={{"cuidamos_auth":{}}},

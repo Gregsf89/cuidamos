@@ -4,11 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Services\ResourceService;
 use Illuminate\Http\Request;
-use Validator;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 
 class ResourceController extends Controller
 {
+    private ResourceService $service;
+
+    public function __construct(ResourceService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * @OA\Post(
      * path="/api/city/search",
@@ -65,7 +72,7 @@ class ResourceController extends Controller
             throw new Exception($validator->errors(), 100001);
         }
 
-        return ['cities_info' => (new ResourceService())->searchCity($data)->toArray()];
+        return ['cities_info' => $this->service->searchCity($data)->toArray()];
     }
 
     /**
@@ -98,7 +105,7 @@ class ResourceController extends Controller
      */
     public function listFederativeUnits(): array
     {
-        return ['federative_units_info' => (new ResourceService())->listFederativeUnits()->toArray()];
+        return ['federative_units_info' => $this->service->listFederativeUnits()->toArray()];
     }
 
     /**
@@ -132,6 +139,6 @@ class ResourceController extends Controller
      */
     public function listGender(): array
     {
-        return ['genders_info' => (new ResourceService())->listGender()->toArray()];
+        return ['genders_info' => $this->service->listGender()->toArray()];
     }
 }

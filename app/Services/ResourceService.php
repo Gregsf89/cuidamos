@@ -31,11 +31,21 @@ class ResourceService extends Service
         return (new CityRepository())->searchCity($filters);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Collection|null
+     */
     public function listFederativeUnits(): Collection
     {
         return (new FederativeUnitRepository())->listFederativeUnits();
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Collection|null
+     */
     public function listGender(): Collection
     {
         return (new GenderRepository())->listGender();

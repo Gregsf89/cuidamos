@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Models\Wardship;
 use App\Repositories\WardshipRepository;
 
@@ -38,6 +37,6 @@ class WardshipService extends Service
      */
     public function show(int $wardshipId): ?Wardship
     {
-        return $this->repository->show($userId);
+        return $this->repository->show($wardshipId);
     }
 }

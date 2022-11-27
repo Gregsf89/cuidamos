@@ -13,7 +13,7 @@ class JsonMiddleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * @return Illuminate\Http\JsonResponse
      */
     public function handle(Request $request, Closure $next): JsonResponse
     {
@@ -23,7 +23,6 @@ class JsonMiddleware
         ];
 
         $response = $next($request);
-        // dd($response->original);
         if (!empty($response->original['code']) && isset($response->original['message'])) {
             $return['error'] = $response->original;
         } else if (!empty($response->original['error']['code']) && isset($response->original['error']['message'])) {

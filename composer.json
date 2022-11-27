@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "lcobucci/jwt": "^4.2",
+        "twilio/sdk": "^6.43",
         "tymon/jwt-auth": "*"
     },
     "require-dev": {

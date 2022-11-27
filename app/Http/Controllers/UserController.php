@@ -57,7 +57,7 @@ class UserController extends Controller
      *                  @OA\Property(property="account_id", type="integer", example="1"),
      *                  @OA\Property(property="email", type="string", example="email@email.com"),
      *                  @OA\Property(property="uid", type="string", example="gDWqJs73KPZXKb8jQOme1ZvCHzk2"),
-     *                  @OA\Property(property="phone", type="string", example="+5511987654321"),
+     *                  @OA\Property(property="phone_number", type="string", example="11987654321"),
      *                  @OA\Property(property="state", type="string", example="Bahia"),
      *                  @OA\Property(property="city", type="string", example="Salvador"),
      *                  @OA\Property(property="gender", type="string", example="Male"),
@@ -112,7 +112,7 @@ class UserController extends Controller
         }
 
         return (new UserResource(
-            $this->service->updateOrCreate($data, auth()->user())
+            $this->service->updateOrCreateUserInfo($data, auth()->user())
         ))->resolve();
     }
 
@@ -136,7 +136,7 @@ class UserController extends Controller
      *                  @OA\Property(property="account_id", type="integer", example="1"),
      *                  @OA\Property(property="email", type="string", example="email@email.com"),
      *                  @OA\Property(property="uid", type="string", example="gDWqJs73KPZXKb8jQOme1ZvCHzk2"),
-     *                  @OA\Property(property="phone", type="string", example="+5511987654321"),
+     *                  @OA\Property(property="phone_number", type="string", example="11987654321"),
      *                  @OA\Property(property="state", type="string", example="Bahia"),
      *                  @OA\Property(property="city", type="string", example="Salvador"),
      *                  @OA\Property(property="gender", type="string", example="Male"),

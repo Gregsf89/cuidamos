@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('account_id')->constrained('accounts')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('email')->unique();
             $table->string('uid')->unique();
-            $table->string('phone')->unique();
+            $table->string('phone_number')->unique()->nullable();
+            $table->boolean('phone_verified')->default(false);
             $table->timestampsTz();
             $table->softDeletesTz();
         });

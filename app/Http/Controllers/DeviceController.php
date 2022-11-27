@@ -9,6 +9,13 @@ use Exception;
 
 class DeviceController extends Controller
 {
+    private DeviceService $service;
+
+    public function __construct(DeviceService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * @OA\Post(
      * path="/api/device/log",
@@ -51,7 +58,6 @@ class DeviceController extends Controller
     {
         $data = $request->only([
             'device_id',
-            'wardship_id',
             'latitude',
             'longitude',
             'altitude',
@@ -65,7 +71,6 @@ class DeviceController extends Controller
             $data,
             [
                 'device_id' => 'required|integer|exists:devices,id,deleted_at,NULL',
-                'wardship_id' => "required|integer|exists:wardships,id,deleted_at,NULL,device_id,{$data['device_id']}",
                 'latitude' => 'required|numeric',
                 'longitude' => 'required|numeric',
                 'altitude' => 'required|numeric',
@@ -81,7 +86,7 @@ class DeviceController extends Controller
             throw new Exception($validator->errors(), 100001);
         }
 
-        (new DeviceService())->registerLog($data['wardship_id'], $data['device_id']);
+        $this->service->registerLog($data);
     }
 
     public function link(Request $request) //: array

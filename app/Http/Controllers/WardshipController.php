@@ -114,7 +114,7 @@ class WardshipController extends Controller
                 'wardship_info.last_name' => 'required|string|min:3|max:255',
                 'wardship_info.date_of_birth' => 'required|date_format:Y-m-d',
                 'wardship_info.email' => 'nulalble|unique:wardships,email|string|max:255|email:rfc,dns',
-                'wardship_info.phone' => 'nullable|string|regex:/(5{2})[1-9]{2}[7-9][0-9]{8}$/|max:14|min:12',
+                'wardship_info.phone' => 'nullable|string|regex:/[1-9]{2}[7-9][0-9]{8}$/|max:11|min:10',
                 'wardship_info.document' => ['required', 'string', 'min:11', 'max:14', 'unique:wardships,document', new CpfValidator()],
                 'wardship_info.address' => 'required|string|min:3|max:255',
                 'wardship_info.zip_code' => 'required|string|min:8|max:8|regex:/[0-9]{8}/'

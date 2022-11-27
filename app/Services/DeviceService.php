@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Device;
+use App\Repositories\DeviceLogRepository;
 use App\Repositories\DeviceRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -12,15 +13,11 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class DeviceService extends Service
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param int $userId
-     * @return Collection|null
-     */
-    public function list(int $userId): ?Collection
+    private DeviceRepository $repository;
+
+    public function __construct(DeviceRepository $repository)
     {
-        return (new  DeviceRepository())->list($userId);
+        $this->repository = $repository;
     }
 
     /**
@@ -32,7 +29,7 @@ class DeviceService extends Service
      */
     public function link(int $wardshipId, string $deviceId): Device
     {
-        return (new DeviceRepository())->link($wardshipId, $deviceId);
+        return $this->repository->link($wardshipId, $deviceId);
     }
 
     /**
@@ -43,7 +40,7 @@ class DeviceService extends Service
      */
     public function getByImei(string $imei)
     {
-        return (new DeviceRepository())->getByImei($imei);
+        return $this->repository->getByImei($imei);
     }
 
     /**
@@ -55,6 +52,18 @@ class DeviceService extends Service
      */
     public function unlink(int $wardshipId, string $deviceId): void
     {
-        (new DeviceRepository())->unlink($wardshipId, $deviceId);
+        $this->repository->unlink($wardshipId, $deviceId);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $wardshipId
+     * @param string $deviceId
+     * @return void
+     */
+    public function registerLog(array $data): void
+    {
+        (new DeviceLogRepository())->registerLog($data);
     }
 }

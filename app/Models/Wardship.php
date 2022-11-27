@@ -73,10 +73,10 @@ class Wardship extends Model
     /**
      * Returns the wardship's city
      * 
-     * @return array|null
+     * @return DeviceLog|null
      */
-    public function lastPosition(): ?array
+    public function lastPosition(): ?DeviceLog
     {
-        return $this->device->logs()->latest()->first()->toArray();
+        return $this->device->logs()->latest()->first();
     }
 }
