@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Device;
 use App\Repositories\DeviceLogRepository;
 use App\Repositories\DeviceRepository;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class DeviceService

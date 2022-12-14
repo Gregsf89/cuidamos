@@ -107,7 +107,7 @@ class DeviceController extends Controller
             throw new Exception($validator->errors(), 100001);
         }
 
-        return (new DeviceService())->link($data['wardship_id'], $data['device_id']);
+        // return (new DeviceService())->link($data['wardship_id'], $data['device_id']);
     }
 
     public function getByImei(Request $request) //: array
@@ -126,7 +126,7 @@ class DeviceController extends Controller
             throw new Exception($validator->errors(), 100001);
         }
 
-        return (new DeviceService())->link($data['wardship_id'], $data['device_id']);
+        // return (new DeviceService())->link($data['wardship_id'], $data['device_id']);
     }
 
     public function unlink(Request $request): void
@@ -152,6 +152,6 @@ class DeviceController extends Controller
             throw new Exception($validator->errors(), 100001);
         }
 
-        (new DeviceService())->unlink($data['wardship_id'], $data['device_id']);
+        // (new DeviceService())->unlink($data['wardship_id'], $data['device_id']);
     }
 }

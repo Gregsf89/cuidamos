@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DeviceLog extends Model
 {
     /**
+     * If the model has timestamps fields or not
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Defines the timestamps column names
      *
      * @const string
